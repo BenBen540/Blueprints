@@ -1,0 +1,51 @@
+blueprint:
+  name: Détection et contrôle de lumière avec condition et temporisation
+  description: Active une lumière lorsqu'un capteur est activé et que le mode nuit est actif, puis l'éteint après un délai configurable.
+  domain: automation
+  input:
+    motion_sensor:
+      name: Capteur de mouvement
+      description: Le capteur qui déclenche l'automatisation.
+      selector:
+        entity:
+          domain: binary_sensor
+    light_device:
+      name: Lumière à contrôler
+      description: La lumière à activer et désactiver.
+      selector:
+        entity:
+          domain: light
+    night_mode:
+      name: Mode nuit
+      description: Un capteur ou switch indiquant si le mode nuit est activé.
+      selector:
+        entity:
+          domain: switch
+    delay_duration:
+      name: Délai avant extinction
+      description: Durée d'attente avant d'éteindre la lumière.
+      default: "00:02:00"
+      selector:
+        time:
+          format: duration
+
+trigger:
+  - platform: state
+    entity_id: !input motion_sensor
+    to: "on"
+
+condition:
+  - condition: state
+    entity_id: !input night_mode
+    state: "on"
+
+action:
+  - service: light.turn_on
+    target:
+      entity_id: !input light_device
+  - delay: !input delay_duration
+  - service: light.turn_off
+    target:
+      entity_id: !input light_device
+
+mode: single
