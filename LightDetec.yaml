@@ -23,10 +23,10 @@ blueprint:
           domain: switch
     delay_duration:
       name: Délai avant extinction
-      description: Durée d'attente avant d'éteindre la lumière.
+      description: Durée d'attente avant d'éteindre la lumière, au format HH:MM:SS.
       default: "00:02:00"
       selector:
-        duration: {}
+        text: {}
 
 trigger:
   - platform: state
@@ -42,7 +42,9 @@ action:
   - service: light.turn_on
     target:
       entity_id: !input light_device
-  - delay: !input delay_duration
+  - delay:
+      seconds: >
+        {{ (strptime(!input delay_duration, '%H:%M:%S') - strptime('00:00:00', '%H:%M:%S')).seconds }}
   - service: light.turn_off
     target:
       entity_id: !input light_device
