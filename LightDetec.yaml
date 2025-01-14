@@ -48,18 +48,16 @@ conditions:
 
 actions:
   - alias: "Turn on the light"
-    service: light.turn_on
+    action: light.turn_on
     target: !input light_target
   - alias: "Wait until there is no motion from device"
     wait_for_trigger:
-      - platform: state
-        entity_id: !input motion_entity
-        from: "on"
-        to: "off"
-    timeout: !input no_motion_wait
-    continue_on_timeout: true
-  - alias: "Turn off the light if no motion detected"
-    condition: template
-    value_template: "{{ is_state(!input motion_entity, 'off') }}"
-    service: light.turn_off
+      trigger: state
+      entity_id: !input motion_entity
+      from: "on"
+      to: "off"
+  - alias: "Wait the number of seconds that has been set"
+    delay: !input no_motion_wait
+  - alias: "Turn off the light"
+    action: light.turn_off
     target: !input light_target
