@@ -1,8 +1,8 @@
 blueprint:
-  name: Motion-activated Light with Sunset Condition
+  name: Motion-activated Light with Sunset
   description: Turn on a light when motion is detected, only between sunset and sunrise. Prolong countdown if motion reoccurs.
   domain: automation
-  source_url: https://github.com/home-assistant/core/blob/dev/homeassistant/components/automation/blueprints/motion_light.yaml
+  source_url: https://github.com/BenBen540/Blueprints/edit/main/LightDetec.yaml
   author: Home Assistant
   input:
     motion_entity:
