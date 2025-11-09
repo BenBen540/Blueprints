@@ -29,6 +29,15 @@ blueprint:
           min: 0
           max: 3600
           unit_of_measurement: seconds
+    loop_prevention_wait:
+      name: Wait time
+      description: Time to wait before allowing retriggering.
+      default: 10
+      selector:
+        number:
+          min: 0
+          max: 60
+          unit_of_measurement: seconds
 
 # Restart mode ensures the automation restarts on new triggers.
 mode: restart
@@ -62,5 +71,4 @@ actions:
     action: light.turn_off
     target: !input light_target
   - alias: "Prevent retrigger"
-    delay:
-      seconds: 10  # <-- Tempo après extinction (ajuster selon besoin)
+    delay: !input loop_prevention_wait
