@@ -61,6 +61,6 @@ actions:
   - alias: "Turn off the light"
     action: light.turn_off
     target: !input light_target
- - alias: "Prevent retrigger"
+  - alias: "Prevent retrigger"
     delay:
       seconds: 10  # <-- Tempo après extinction (ajuster selon besoin)
